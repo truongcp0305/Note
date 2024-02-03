@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/abel</item>
+        <item>@font/abhaya_libre_medium</item>
+        <item>@font/abril_fatface</item>
+        <item>@font/adamina</item>
+        <item>@font/alike</item>
+        <item>@font/alike_angular</item>
+        <item>@font/arya_bold</item>
+        <item>@font/berkshire_swash</item>
+        <item>@font/bigshot_one</item>
+        <item>@font/text_me_one</item>
+    </array>
+</resources>

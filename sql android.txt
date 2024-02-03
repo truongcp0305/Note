@@ -1,0 +1,133 @@
+create database android;
+
+drop table message;
+drop table note;
+drop table taikhoanonline;
+drop table taikhoan;
+drop table lichhoc;
+drop table dangkimonhoc;
+drop table danhsachloptinchi;
+drop table danhsachmonhoc;
+drop table thongtinsinhvien;
+
+
+CREATE TABLE thongtinsinhvien (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    hoten VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci not null,
+    ngaysinh DATE not null,
+    gioitinh VARCHAR(5),
+    quequan VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci not null,
+    gmail VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+    sdt VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+    khoa INT not null,
+    nienkhoa INT not null,
+    lop INT not null
+);
+
+CREATE TABLE danhsachmonhoc (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    soTin INT,
+    tenmon VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci
+);
+
+CREATE TABLE danhsachloptinchi (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    mamon INT,
+    loptinchi int,
+    tenGiaoVien VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci not null,
+    FOREIGN KEY (mamon) REFERENCES danhsachmonhoc(id)
+);
+
+
+CREATE TABLE dangkimonhoc (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    idsinhvien INT,
+    mamon INT,
+    loptinchi INT,
+    FOREIGN KEY (idsinhvien) REFERENCES thongtinsinhvien(id),
+    FOREIGN KEY (mamon) REFERENCES danhsachmonhoc(id),
+    FOREIGN KEY (loptinchi) REFERENCES danhsachloptinchi(id)
+);
+
+CREATE TABLE lichhoc (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    mamon INT,
+    loptinchi INT,
+    ngayhoc DATE,
+    cahoc INT,
+    phonghoc VARCHAR(50),
+    FOREIGN KEY (mamon) REFERENCES danhsachmonhoc(id),
+    FOREIGN KEY (loptinchi) REFERENCES danhsachloptinchi(id)
+);
+
+
+CREATE TABLE taikhoan (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    idsinhvien INT,
+    taikhoan VARCHAR(10),
+    matkhau TEXT,
+    iv TEXT,
+    avatar TEXT DEFAULT 'https://lh3.googleusercontent.com/pw/ADCreHfOYZtMljXEfL33IqsCl2WJgVstJGBeFNzMtaB0N9Le19w2rVT3pse7kbY26g5HOo2th9YNStNPcHza14eWFpIcstGH1kc_BxfldhK-9NuHfjtMpkC0XCbhOI0wIAGjrBcIOE_3sW2pNu5cb9EYkGVWDy2wrOQ4mwasJugIaJphuXTH1WGt7v90E0dOP3QFdg1qkz4OJvkHjn2NWJbl4KqaKoywhzZmRDUVbiSpLoXCSutJQfZIy74bxI7rpmQjtLEnfTVMJWw0qV_HlWXJWPxO-4eKhaavSA9N4K3VEUr39HttyyB9YIWZAl35JL66ZEuqLluRkvzGlRMF6FizelD0fguIgxuArQoebinWWfK-7UW0-I36Kqy5JRg1sZ8azxIofoF0boiaRxvHrE7hrhQO6_IVZERLq_qvrkZjjf63ouukJi68f7wTIgzHcAM3MHaGf0CXiYFTlianohn7c6ZbJJRIS504Va6UtMuCrxuYJoYmmXLIbOpKQyH8zzeGK7c7RSHBIOWqUJ4EJt01Y4wProsbnrGtnzNvhmUgLb-A3bWYT2RNCPptmpsoBze3uxzRRy1AedWmhoumjSe3fuyaa7tTWA_FLL2Pg_TT0g9CUQOCZR2WYQb6FcH92cN5xnRqwDHQ2j2hXvxfAgQJld0jvfrh6JuJ5e0uIts1DB8XQe2kMRhxDtjyPoWBj78Kl-Xl45X-ljbj4Toozz4knpJ_W1RL51LS_HL_WClIGGcydR36dTOPRfkR-DGdKwsPUasgVdhaVwvlEpemwxh_q2sFcCH81620LQpasxATPV6isjdVmBG1uH4qGI5Iq4wY0fq6s-LeSw1x8d1dMluEJBlJZn5gdycqpjhVaaQWt_FyccUY1V3tvRbXPCqJCipCQQzlPANaaSOKzt_t6s8HBE38ETdfNN-TddTARJtjVwnhtAlJE1mWJUlc5HsjSYIuhsTurYY4v8VcvU221SXkcug_8NtgSL2H=w50-h50-s-no?authuser=0',
+    FOREIGN KEY (idsinhvien) REFERENCES thongtinsinhvien(id)
+);
+
+CREATE TABLE taikhoanonline (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    idtaikhoan INT,
+    online INT,
+    FOREIGN KEY (idtaikhoan) REFERENCES taikhoan(id)
+);
+
+
+CREATE TABLE note (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    idsinhvien INT,
+    tieude TEXT,
+    ngayTao DATE,
+    ngayCapNhat DATE,
+    noidung TEXT,
+    noidungcua VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci,
+    FOREIGN KEY (idsinhvien) REFERENCES thongtinsinhvien(id)
+);
+
+CREATE TABLE message (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    idsinhvien INT,
+    thoigian TEXT,
+    mamon INT,
+    loptinchi INT,
+    tinnhan TEXT,
+    coimg INT,
+    img LONGTEXT,
+    FOREIGN KEY (idsinhvien) REFERENCES thongtinsinhvien(id),
+    FOREIGN KEY (mamon) REFERENCES danhsachmonhoc(id),
+    FOREIGN KEY (loptinchi) REFERENCES danhsachloptinchi(id)
+);
+
+
+
+
+
+
+SELECT *
+FROM (danhsachmonhoc
+JOIN danhsachloptinchi ON danhsachmonhoc.id = danhsachloptinchi.mamon)
+JOIN dangkimonhoc on (dangkimonhoc.mamon = danhsachloptinchi.mamon and dangkimonhoc.loptinchi = danhsachloptinchi.loptinchi);
+
+SELECT *
+FROM ((danhsachmonhoc
+JOIN danhsachloptinchi ON danhsachmonhoc.id = danhsachloptinchi.mamon)
+JOIN dangkimonhoc on (dangkimonhoc.mamon = danhsachloptinchi.mamon and dangkimonhoc.loptinchi = danhsachloptinchi.loptinchi)) join lichhoc on (dangkimonhoc.mamon = lichhoc.mamon and dangkimonhoc.loptinchi = lichhoc.loptinchi);
+
+SELECT tenmon, sotin, lichhoc.mamon, lichhoc.loptinchi, tengiaovien, idsinhvien,
+ngayhoc, cahoc, phonghoc
+FROM ((danhsachmonhoc
+JOIN danhsachloptinchi ON danhsachmonhoc.id = danhsachloptinchi.mamon)
+JOIN dangkimonhoc on (dangkimonhoc.mamon = danhsachloptinchi.mamon and dangkimonhoc.loptinchi = danhsachloptinchi.loptinchi)) join lichhoc on (dangkimonhoc.mamon = lichhoc.mamon and dangkimonhoc.loptinchi = lichhoc.loptinchi)
+ORDER BY lichhoc.ngayhoc;
+
+
+
+
+
+
